@@ -1,7 +1,5 @@
 import math
-import torch
 import torch.nn as nn
-import torch.nn.init as init
 import torch.nn.functional as F
 
 
@@ -49,26 +47,26 @@ class ResidualBlock(nn.Module):
         return out
 
 
-class EResidualBlock(nn.Module):
-    def __init__(self,
-                 in_channels, out_channels,
-                 group=1):
-        super(EResidualBlock, self).__init__()
-
-        self.body = nn.Sequential(
-            nn.Conv2d(in_channels, out_channels, 3, 1, 1, groups=group),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, 3, 1, 1, groups=group),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, 1, 1, 0),
-        )
-
-        init_weights(self.modules)
-
-    def forward(self, x):
-        out = self.body(x)
-        out = F.relu(out + x)
-        return out
+# class EResidualBlock(nn.Module):
+#     def __init__(self,
+#                  in_channels, out_channels,
+#                  group=1):
+#         super(EResidualBlock, self).__init__()
+#
+#         self.body = nn.Sequential(
+#             nn.Conv2d(in_channels, out_channels, 3, 1, 1, groups=group),
+#             nn.ReLU(inplace=True),
+#             nn.Conv2d(out_channels, out_channels, 3, 1, 1, groups=group),
+#             nn.ReLU(inplace=True),
+#             nn.Conv2d(out_channels, out_channels, 1, 1, 0),
+#         )
+#
+#         init_weights(self.modules)
+#
+#     def forward(self, x):
+#         out = self.body(x)
+#         out = F.relu(out + x)
+#         return out
 
 
 class UpsampleBlock(nn.Module):

@@ -1,21 +1,19 @@
+import os
+import time
+
 import numpy as np
 import numpy.matlib
-from scipy.io import loadmat
 import torch
-import torch.nn.functional as F
 import torch.nn as nn
+import torch.nn.functional as F
 import torch.utils.data as Data
-import matplotlib.pyplot as plt
 from scipy.io import loadmat, savemat
-import time
-import os
-from step1 import LCNN
+
+import ssim_psnr
 # from model import ResBlock
 from model import Net
-from model import CombinedModel
-import ssim_psnr
-import matplotlib as mpl
-import matplotlib.cm as cm
+from step1 import LCNN
+
 # from thop import profile
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
@@ -321,7 +319,7 @@ with torch.no_grad():
         data_n_copy_Predicted1_up=np.copy(YPredicted1_up[i, :]).astype(np.uint16)
         gray_img_Predicted1_up = torch.tensor(data_n_copy_Predicted1_up/(maxs_Predicted1_up-mins_Predicted1_up)*255).unsqueeze_(dim=1)
 
-        # gray_img_Predicted1_up = gray_img_Predicted1_up.reshape(80, 80)
+        gray_img_Predicted1_up = gray_img_Predicted1_up.reshape(80, 80)
 
 
         maxs_xi = YValidation_xi[i, :].max()
@@ -330,11 +328,11 @@ with torch.no_grad():
         mins_Predicted2 = YPredicted2[i, :].min()
         data_n_copy_xi=np.copy(YValidation_xi[i, :]).astype(np.uint16)
         gray_img_xi = torch.tensor(data_n_copy_xi/(maxs_xi-mins_xi)*255).unsqueeze_(dim=1)
-        # gray_img_xi = gray_img_xi.reshape(80, 80)
+        gray_img_xi = gray_img_xi.reshape(80, 80)
 
         data_n_copy_Predicted2=np.copy(YPredicted2[i, :]).astype(np.uint16)
         gray_img_Predicted2 = torch.tensor(data_n_copy_Predicted2/(maxs_Predicted2-mins_Predicted2)*255).unsqueeze_(dim=1)
-        # gray_img_Predicted2 = gray_img_Predicted2.reshape(80, 80)
+        gray_img_Predicted2 = gray_img_Predicted2.reshape(80, 80)
 
         # sample_loss_0 = np.linalg.norm(YPredicted1[i, :] - YValidation_cu[i, :], ord=2) / np.linalg.norm(YValidation_cu[i, :], ord=2)
         # CNN_sample_error_0 = CNN_sample_error_0 + sample_loss_0

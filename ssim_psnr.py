@@ -1,9 +1,5 @@
-import torch
-import torch.nn.functional as F
 # from torch.autograd import Variable
 import numpy as np
-from math import exp
-
 
 
 def cal_ssim(im1,im2):
